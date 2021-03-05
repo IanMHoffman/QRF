@@ -11,30 +11,30 @@ Picking out components of a file path
 ```python
 from pathlib import Path
 
->>> path
+path
 PosixPath('/home/user/python/test.md')
 
 # .name: the file name without any directory
->>> path.name
+path.name
 'test.md'
 
 # .stem: the file name without the suffix
->>> path.stem
+path.stem
 'test'
 
 # .suffix: the file extension
->>> path.suffix
+path.suffix
 '.md'
 
 # .parent: the directory containing the file, or the parent directory if path is a directory
->>> path.parent
+path.parent
 PosixPath('/home/user/python')
 
->>> path.parent.parent
+path.parent.parent
 PosixPath('/home/user')
 
 # .anchor: the part of the path before the directories
->>> path.anchor
+path.anchor
 '/'
 ```
 
@@ -80,6 +80,49 @@ logging.error("error message")
 logging.critical("critical message")
 ```
 
+## import xlrd
+
+Read in all excel tabs to one list of dictionaries
+```python
+def readExcelFile(excelFile):
+    # Open Excel Workbook
+    book = xlrd.open_workbook(excelFile)
+    sheets = book.sheets()
+    disc_list = []
+    # Read Data From Sheets One at a Time
+    for sheet in tqdm.tqdm(sheets,'Processing excel sheet Tabs'):
+        
+        worksheet = book.sheet_by_name(sheet.name)
+        header = worksheet.row_values(0) # Select first row as header
+        values = [worksheet.row_values(i) for i in range(1, sheet.nrows)] # Skip first row of headers
+
+        for value in values:
+            for item in value:
+                item = str(item)
+            # zip the headings and row values together into a dict
+            disc_list.append(dict(zip(header, value)))
+
+    return(disc_list)
+```
+
+Read in one excel tab by name to a list of dictionaries
+```python
+def readExcelFile(excelFile, sheet):
+    # Open Excel Workbook
+    book = xlrd.open_workbook(excelFile)
+    disc_list = []
+    worksheet = book.sheet_by_name(sheet)
+    header = worksheet.row_values(0) # Select 2nd row as header
+    values = [worksheet.row_values(i) for i in range(1, sheet.nrows)] # Skip first row of headers
+
+    for value in values:
+        for item in value:
+            item = str(item)
+        # zip the headings and row values together into a dict
+        disc_list.append(dict(zip(header, value))) 
+
+    return(disc_list)
+```
 ## import pyodbc
 
 Read the tables in a access database.
