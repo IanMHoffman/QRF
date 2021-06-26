@@ -149,3 +149,25 @@ def readDatabase(db_path, table):
         db_list.append(dict(zip(colNames, row)))
     return db_list
 ```
+
+# VBA
+
+## Protect All Sheets
+```
+Sub Protect()
+      'Loop through all sheets in the workbook
+      For i = 1 To Sheets.Count
+         Sheets(i).Protect
+      Next i
+End Sub
+```
+
+## Unprotect All Sheets
+```
+Sub UnProtect()
+      'Loop through all sheets in the workbook
+      For i = 1 To Sheets.Count
+         Sheets(i).UnProtect
+      Next i
+End Sub
+```
